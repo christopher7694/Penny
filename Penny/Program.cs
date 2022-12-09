@@ -4,10 +4,10 @@ namespace Penny
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
-            var app = builder.Build();
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+            WebApplication app = builder.Build();
 
-            app.MapGet("/", () => "Hello World!");
+            _ = app.MapGet("/", () => "Hello World!");
 
             app.Run();
         }
