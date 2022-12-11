@@ -1,3 +1,5 @@
+using OpenTelemetry.Trace;
+
 using Serilog;
 
 namespace Penny;
@@ -21,6 +23,14 @@ public class Program
 
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
             _ = builder.Host.UseSerilog();
+            _ = builder.Services.AddOpenTelemetryTracing(tpBuilder =>
+            {
+                _ = tpBuilder
+                .AddAspNetCoreInstrumentation()
+                .AddHttpClientInstrumentation()
+                .AddOtlpExporter()
+                .AddJaegerExporter();
+            });
 
             WebApplication app = builder.Build();
             _ = app.MapGet("/", () => "Hello World!");
